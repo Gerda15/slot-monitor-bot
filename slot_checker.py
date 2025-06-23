@@ -1,4 +1,3 @@
-
 import requests
 import time
 from telegram import Bot
@@ -25,10 +24,12 @@ def send_message(text):
     bot.send_message(chat_id=CHAT_ID, text=text)
 
 if __name__ == "__main__":
-    print("[*] Запуск моніторингу...")
+    already_notified = False
     while True:
         if check_appointments():
-            send_message("❗️З’явились нові слоти на сайті!")
+            if not already_notified:
+                send_message("📅 Увага! З'явилися вільні слоти на запис!")
+                already_notified = True
         else:
-            print("[*] Слотів немає.")
+            already_notified = False
         time.sleep(CHECK_INTERVAL)
